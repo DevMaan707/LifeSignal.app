@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'intro_page2.dart'; // Import the IntroPage2
+import 'intro_page2.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
@@ -12,8 +12,6 @@ class _IntroPageState extends State<IntroPage> {
   @override
   void initState() {
     super.initState();
-
-    // Delay for 3 seconds and then navigate to LoginPage
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
@@ -27,12 +25,11 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('lib/images/intro_img.png'), // Ensure correct image path
-                fit: BoxFit.cover, // Ensures the image covers the entire screen
+                image: AssetImage('lib/images/intro_img.png'),
+                fit: BoxFit.fill,
               ),
             ),
           ),

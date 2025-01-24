@@ -60,10 +60,7 @@ Future<void> verifyOtp(
       // Handle response data as needed
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => DashboardPage(
-                  mobilenopref: mobileNo,
-                )),
+        MaterialPageRoute(builder: (context) => DashboardPage()),
       );
     } else {
       print('Failed to verify OTP: ${response.statusCode}');
@@ -218,8 +215,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      DashboardPage(mobilenopref: '')),
+                                  builder: (context) => DashboardPage()),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -311,7 +307,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignInPage()),
+                                  builder: (context) => SignInPage()),
                             );
                           },
                           child: const Text(
