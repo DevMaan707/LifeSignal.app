@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pocket_doc/features/common/views/webView.dart';
 import 'signin_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'web_view.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
