@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dashboard_page.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
-
   final String userId;
 
   const ProfilePage({super.key, required this.userId});
@@ -16,16 +14,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String _selectedGender = 'Male'; // Default gender
-  File? _profileImage; // To store the selected profile image
+  String _selectedGender = 'Male';
+  File? _profileImage;
 
-  final ImagePicker _picker = ImagePicker(); // Image picker instance
-
+  final ImagePicker _picker = ImagePicker();
 
   Future<void> uploadData(File? file, String userId, String userType) async {
     if (file == null) {
       print('No file selected');
-      return; // Exit the function if the file is null
+      return;
     }
 
     final url = Uri.parse('http://localhost:8585/image/upload');
@@ -34,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
       final request = http.MultipartRequest('POST', url)
         ..fields['userId'] = userId
         ..fields['userType'] = userType
-        ..files.add(await http.MultipartFile.fromPath('file', file.path)); // Use file.path safely
+        ..files.add(await http.MultipartFile.fromPath('file', file.path));
 
       final response = await request.send();
 
@@ -48,12 +45,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-
-
-
-
-
-
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
@@ -65,9 +56,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _deleteProfileImage() {
     setState(() {
-      _profileImage = null; // Reset to default image
+      _profileImage = null;
     });
-    Navigator.pop(context); // Close the popup
+    Navigator.pop(context);
   }
 
   @override
@@ -98,7 +89,6 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Profile image with camera icon
                 Stack(
                   children: [
                     CircleAvatar(
@@ -106,7 +96,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       backgroundImage: _profileImage != null
                           ? FileImage(_profileImage!) as ImageProvider
                           : AssetImage('lib/images/profile.png'),
-                      //backgroundColor: Colors.grey[200],
                     ),
                     Positioned(
                       bottom: 0,
@@ -136,8 +125,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(height: 16),
-
-                // Username text
                 Text(
                   'Username',
                   style: TextStyle(
@@ -146,8 +133,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 SizedBox(height: 20),
-
-                // Disabled input box for name
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: TextFormField(
@@ -160,8 +145,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 SizedBox(height: 20),
-
-                // Disabled input box for email
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: TextFormField(
@@ -174,8 +157,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 SizedBox(height: 20),
-
-                // Dropdown for gender
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: DropdownButtonFormField<String>(
@@ -199,25 +180,25 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 SizedBox(height: 32),
-
-                // Save button
                 ElevatedButton(
                   onPressed: () async {
                     if (_profileImage == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please select a profile image.")),
+                        SnackBar(
+                            content: Text("Please select a profile image.")),
                       );
                       return;
                     }
 
-                    await uploadData(_profileImage, widget.userId, _selectedGender);
+                    await uploadData(
+                        _profileImage, widget.userId, _selectedGender);
 
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const DashboardPage(mobilenopref: '')),
+                      MaterialPageRoute(
+                          builder: (context) => const DashboardPage()),
                     );
                   },
-
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
@@ -225,7 +206,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 32),
                     child: Text(
                       'SAVE',
                       style: TextStyle(fontSize: 16, color: Colors.white),
@@ -246,11 +228,10 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: EdgeInsets.all(10),
       child: Column(
         children: [
-          // Delete icon at the top-right corner
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(), // Empty space for alignment
+              SizedBox(),
               IconButton(
                 icon: Icon(Icons.delete, color: Colors.red),
                 onPressed: _deleteProfileImage,

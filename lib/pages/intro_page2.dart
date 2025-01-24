@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'signin_page.dart';
 import 'signup_page.dart';
 import 'dashboard_page.dart';
@@ -22,111 +23,130 @@ class IntroPage2 extends StatelessWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (snapshot.hasData && snapshot.data == true) {
-          return const DashboardPage(mobilenopref: ''); // Redirect to Dashboard if logged in
+          return const DashboardPage();
         } else {
           return Scaffold(
-            body: Stack(
-              children: [
-                // Background Image
-                Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('lib/images/intro2_img.png'), // Ensure the image path is correct
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                // Buttons
-                Container(
-            margin: const EdgeInsets.only(top: 687), // Add top margin
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start, // Align the buttons to the left
+            body: SafeArea(
+              child: Stack(
                 children: [
-                  // Sign In Button with left margin
                   Container(
-                    margin: const EdgeInsets.only(left: 20), // Add left margin
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Handle Sign In action
-                         Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => const SignInPage()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent, // Transparent color
-                        foregroundColor: Colors.black, // Text color
-                        elevation: 0, // Removes shadow
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50), // Rounded corners
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24), // Padding for button
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            'Sign In',
-                            style: TextStyle(fontSize: 24), // Increase font size
-                          ),
-                          const SizedBox(width: 10), // Space between button and circle
-                          CircleAvatar(
-                            radius: 20, // Circle size
-                            backgroundColor: Colors.white, // Circle color
-                            child: const Icon(
-                              Icons.arrow_forward, // Icon for Sign In
-                              color: Colors.black, // Icon color
-                            ),
-                          ),
-                        ],
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('lib/images/intro2_img.png'),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 9), // Space between the buttons
-
-                  // Sign Up Button
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Sign Up action
-                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => const SignUpPage()),
-                        );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent, // Transparent color
-                      foregroundColor: Colors.black, // Text color
-                      elevation: 0, // Removes shadow
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50), // Rounded corners
+                  // Buttons
+                  Positioned(
+                    bottom: 29.w,
+                    left: 5.w,
+                    child: Container(
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 20.w),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SignInPage(),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  foregroundColor: Colors.black,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      50.r,
+                                    ), // Rounded corners
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 24),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Sign In',
+                                      style: TextStyle(fontSize: 20.sp),
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: Colors.white,
+                                      child: const Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 20.w,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignUpPage(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                foregroundColor: Colors.black,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    50,
+                                  ),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 19,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text(
+                                    'Sign Up',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                      width:
+                                          10), // Space between button and circle
+                                  CircleAvatar(
+                                    radius: 20,
+                                    backgroundColor: Colors.white,
+                                    child: const Icon(
+                                      Icons.person_add,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 19), // Padding for button
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Sign Up',
-                          style: TextStyle(fontSize: 24), // Increase font size
-                        ),
-                        const SizedBox(width: 10), // Space between button and circle
-                        CircleAvatar(
-                          radius: 20, // Circle size
-                          backgroundColor: Colors.white, // Circle color
-                          child: const Icon(
-                            Icons.person_add, // Icon for Sign Up
-                            color: Colors.black, // Icon color
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ),
-              ],
             ),
           );
         }
