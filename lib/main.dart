@@ -1,4 +1,6 @@
 import 'package:cc_essentials/cc_essentials.dart';
+import 'package:cc_essentials/chat/controller/chat_controller.dart';
+import 'package:cc_essentials/chat/models/chat_config.dart';
 import 'package:cc_essentials/services/shared_preferences/shared_preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +17,15 @@ void main() async {
     accentColor: Colors.teal,
     navigatorKey: navigatorKey,
   );
+
+  final chatConfig = await ChatConfig(
+    primaryColor: Colors.blue,
+    secondaryColor: Colors.grey,
+    saveToLocal: true,
+    messagesPerPage: 20,
+    isConversationEnd: (response) => response['isEnd'] == true,
+  );
+  Get.put(ChatController(config: chatConfig));
   final sharedPreferencesService = SharedPreferencesService();
   await sharedPreferencesService.init();
   await GetStorage.init();

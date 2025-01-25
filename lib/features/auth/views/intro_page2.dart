@@ -1,7 +1,7 @@
 import 'package:cc_essentials/services/shared_preferences/shared_preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../dashboard/views/dashboard_page.dart';
+import 'package:pocket_doc/main_page.dart';
 import 'signin_page.dart';
 import 'signup_page.dart';
 
@@ -25,7 +25,7 @@ class IntroPage2 extends StatelessWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (snapshot.hasData && snapshot.data == true) {
-          return const DashboardPage();
+          return MainPage();
         } else {
           return Scaffold(
             body: SafeArea(

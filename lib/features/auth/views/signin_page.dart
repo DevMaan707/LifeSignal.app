@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:cc_essentials/helpers/logging/logger.dart';
-
-import '../../dashboard/views/dashboard_page.dart';
+import 'package:pocket_doc/main_page.dart';
 
 class AuthController extends GetxController {
   final TextEditingController phoneController = TextEditingController();
@@ -56,7 +55,7 @@ class AuthController extends GetxController {
         SharedPreferencesService().setString('userID', responseData['userID']);
         logger.i(SharedPreferencesService().getToken());
         logger.i(SharedPreferencesService().getString('userID'));
-        Get.offAll(DashboardPage());
+        Get.offAll(MainPage());
       } else {
         Get.snackbar("Error", "Sign-in failed: ${response.body}",
             snackPosition: SnackPosition.BOTTOM);
