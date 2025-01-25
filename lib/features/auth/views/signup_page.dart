@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:cc_essentials/helpers/logging/logger.dart';
 import 'package:flutter/material.dart';
 import '../../dashboard/views/dashboard_page.dart';
 import 'signin_page.dart';
@@ -32,40 +30,9 @@ Future<void> sendOtp(
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       print('OTP sent successfully: $responseData');
-      // Handle response data as needed
     } else {
       print('Failed to send OTP: ${response.statusCode}');
       print('Error: ${response.body}');
-    }
-  } catch (e) {
-    print('Error: $e');
-  }
-}
-
-Future<void> verifyOtp(
-    BuildContext context, String mobileNo, String otp) async {
-  final url = Uri.parse('http://localhost:8585/api/login/otp-verify');
-  final body = json.encode({"mobileno": mobileNo, "otp": otp});
-
-  try {
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: body,
-    );
-
-    if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      logger.i('OTP verification successful: $responseData');
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => DashboardPage()),
-      );
-    } else {
-      logger.i('Failed to verify OTP: ${response.statusCode}');
-      logger.e('Error: ${response.body}');
     }
   } catch (e) {
     print('Error: $e');
@@ -204,31 +171,24 @@ class _SignUpPageState extends State<SignUpPage> {
                           },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 100), // Increased width
-                            backgroundColor: const Color(
-                                0xFF3254ED), // Background color same as page
+                                vertical: 12, horizontal: 100),
+                            backgroundColor: const Color(0xFF3254ED),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
                           child: const Text(
                             'SEND OTP',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white), // White text color
+                            style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // OTP field and SIGN UP button (appears after SEND OTP button click)
                     Visibility(
-                      visible:
-                          _showOTPFields, // Show only when OTP fields are triggered
+                      visible: _showOTPFields,
                       child: Column(
                         children: [
-                          // OTP field
                           TextField(
                             obscureText: true,
                             controller: otp,
@@ -236,8 +196,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               labelText: 'OTP',
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: const Color(
-                                      0xFF3254ED), // Border color same as background
+                                  color: const Color(0xFF3254ED),
                                 ),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
@@ -245,19 +204,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           const SizedBox(height: 30),
-                          // Sign Up button
                           Center(
                             child: ElevatedButton(
-                              onPressed: () {
-                                // Handle Sign Up action
-                                verifyOtp(context, mobileno.text, otp.text);
-                              },
+                              onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 12,
-                                    horizontal: 100), // Increased width
-                                backgroundColor: const Color(
-                                    0xFF3254ED), // Background color same as page
+                                    vertical: 12, horizontal: 100),
+                                backgroundColor: const Color(0xFF3254ED),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -265,8 +218,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               child: const Text(
                                 'SIGN UP',
                                 style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white), // White text color
+                                    fontSize: 18, color: Colors.white),
                               ),
                             ),
                           ),
@@ -274,7 +226,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // "Already have an account?" text
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -287,7 +238,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // Navigate to SignInPage when Sign In is clicked
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -305,7 +255,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    // Horizontal line with light grey color and shorter width
                     const Divider(
                       color: Color(0xFFB0BEC5),
                       thickness: 1,
@@ -313,13 +262,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       endIndent: 100,
                     ),
                     const SizedBox(height: 20),
-                    // Continue with Google button
                     TextButton.icon(
-                      onPressed: () {
-                        // Handle Google Sign-In action
-                      },
+                      onPressed: () {},
                       icon: Image.asset(
-                        'lib/images/googleicon_img.png', // Replace with your Google icon path
+                        'lib/images/googleicon_img.png',
                         width: 24,
                         height: 24,
                       ),

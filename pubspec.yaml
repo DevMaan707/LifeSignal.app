@@ -25,7 +25,7 @@ dependencies:
       url: https://github.com/DevMaan707/cc_essentials.git
       ref: v0.6.9
   get_storage:
-
+  intl:
 dev_dependencies:
   flutter_test:
     sdk: flutter
