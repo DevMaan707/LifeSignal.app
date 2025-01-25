@@ -1,9 +1,14 @@
+import 'package:cc_essentials/helpers/logging/logger.dart';
 import 'package:flutter/material.dart';
-import 'signin_page.dart';
+import 'package:get/get.dart';
+import 'package:pocket_doc/controllers/doctor_controller.dart';
+import '../../../controllers/user_controller.dart';
+import '../../auth/views/signin_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'web_view.dart';
+import '../../doctors/views/doctor_details_page.dart';
+import '../../shared/views/web_view.dart';
+import '../../shared/widgets/doctor_card.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -21,15 +26,13 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Future<void> _initializeData() async {
-    await _loadStoredData();
-    _fetchDashboardData();
+    final UserController userController = Get.put(UserController());
+    final DoctorController doctorController = Get.put(DoctorController());
+    await userController.fetchUser();
+    await doctorController.fetchDoctors();
+    logger.i("Fetched Data");
   }
 
-  Future<void> _loadStoredData() async {
-    _fetchDashboardData();
-  }
-
-  Future<void> _fetchDashboardData() async {}
   Future<void> _logout(BuildContext context) async {
     final confirmLogout = await showDialog<bool>(
       context: context,
@@ -72,6 +75,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final UserController userController = Get.find();
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -90,13 +94,21 @@ class _DashboardPageState extends State<DashboardPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Good Day',
-                style: TextStyle(color: Colors.black, fontSize: 16)),
-            Text('',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20)),
+            Text(
+              'Good Day',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            ),
+            Text(
+              userController.user.value?.firstName ?? "",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
           ],
         ),
         actions: [
@@ -174,6 +186,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Widget _buildDashboardContent() {
+    final DoctorController doctorController = Get.find();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView(
@@ -193,8 +206,31 @@ class _DashboardPageState extends State<DashboardPage> {
             ],
           ),
           SizedBox(height: 16),
-          Text('Our Doctors',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text(
+            'Our Doctors',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 8),
+          Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            children: doctorController.doctors.map((doctor) {
+              return DoctorCard(
+                doctor: doctor,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DoctorDetailsPage(doctor: doctor),
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          ),
         ],
       ),
     );

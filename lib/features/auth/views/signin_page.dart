@@ -1,9 +1,12 @@
 import 'dart:convert';
-import 'package:pocket_doc/pages/dashboard_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cc_essentials/services/shared_preferences/shared_preference_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:cc_essentials/helpers/logging/logger.dart';
+
+import '../../dashboard/views/dashboard_page.dart';
 
 class AuthController extends GetxController {
   final TextEditingController phoneController = TextEditingController();
@@ -49,10 +52,10 @@ class AuthController extends GetxController {
       if (response.statusCode == 200) {
         print("YES");
         final responseData = json.decode(response.body);
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', responseData['token']);
-        await prefs.setBool('isLoggedIn', true);
-        await prefs.setString('userID', responseData['userID']);
+        SharedPreferencesService().setToken(responseData['token']);
+        SharedPreferencesService().setString('userID', responseData['userID']);
+        logger.i(SharedPreferencesService().getToken());
+        logger.i(SharedPreferencesService().getString('userID'));
         Get.offAll(DashboardPage());
       } else {
         Get.snackbar("Error", "Sign-in failed: ${response.body}",

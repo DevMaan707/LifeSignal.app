@@ -1,16 +1,18 @@
+import 'package:cc_essentials/services/shared_preferences/shared_preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../dashboard/views/dashboard_page.dart';
 import 'signin_page.dart';
 import 'signup_page.dart';
-import 'dashboard_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroPage2 extends StatelessWidget {
   const IntroPage2({super.key});
 
   Future<bool> _checkLoginStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isLoggedIn') ?? false;
+    return (SharedPreferencesService().getToken == "" &&
+            SharedPreferencesService().setLoggedIn == false)
+        ? false
+        : true;
   }
 
   @override
