@@ -1,23 +1,23 @@
 class Doctor {
-  String id;
-  String firstName;
-  String lastName;
-  String speciality;
-  String phone;
-  String email;
-  String clinicName;
-  String clinicAddress;
-  String profilePicture;
-  double rating;
-  int experience;
-  List<String> availability;
-  double fee;
-  List<String> languages;
-  List<String> qualifications;
-  List<String> services;
-  String about;
-  Map<String, String> socialLinks;
-  DateTime createdAt;
+  final String id;
+  final String firstName;
+  final String lastName;
+  final String speciality;
+  final String phone;
+  final String email;
+  final String clinicName;
+  final String clinicAddress;
+  final String profilePicture;
+  final double rating;
+  final int experience;
+  final List<String> availability;
+  final double fee;
+  final List<String> languages;
+  final List<String> qualifications;
+  final List<String> services;
+  final String about;
+  final Map<String, String> socialLinks;
+  final DateTime createdAt;
 
   Doctor({
     required this.id,
@@ -40,29 +40,32 @@ class Doctor {
     required this.socialLinks,
     required this.createdAt,
   });
+
   factory Doctor.fromJson(Map<String, dynamic> json) {
     return Doctor(
-      id: json['id'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      speciality: json['speciality'],
-      phone: json['phone'],
-      email: json['email'],
-      clinicName: json['clinic_name'],
-      clinicAddress: json['clinic_address'],
-      profilePicture: json['profile_picture'],
-      rating: (json['rating'] as num).toDouble(),
-      experience: json['experience'],
-      availability: List<String>.from(json['availability']),
-      fee: (json['fee'] as num).toDouble(),
-      languages: List<String>.from(json['languages']),
-      qualifications: List<String>.from(json['qualifications']),
-      services: List<String>.from(json['services']),
-      about: json['about'],
-      socialLinks: Map<String, String>.from(json['social_links']),
-      createdAt: DateTime.parse(json['created_at']),
+      id: json['id'] ?? "",
+      firstName: json['first_name'] ?? "",
+      lastName: json['last_name'] ?? "",
+      speciality: json['speciality'] ?? "",
+      phone: json['phone'] ?? "",
+      email: json['email'] ?? "",
+      clinicName: json['clinic_name'] ?? "",
+      clinicAddress: json['clinic_address'] ?? "",
+      profilePicture: json['profile_picture'] ?? "",
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      experience: json['experience'] ?? 0,
+      availability: List<String>.from(json['availability'] ?? []),
+      fee: (json['fee'] as num?)?.toDouble() ?? 0.0,
+      languages: List<String>.from(json['languages'] ?? []),
+      qualifications: List<String>.from(json['qualifications'] ?? []),
+      services: List<String>.from(json['services'] ?? []),
+      about: json['about'] ?? "",
+      socialLinks: Map<String, String>.from(json['social_links'] ?? {}),
+      createdAt:
+          DateTime.tryParse(json['created_at'] ?? "") ?? DateTime(1970, 1, 1),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

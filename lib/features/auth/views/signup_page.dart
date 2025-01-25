@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:cc_essentials/helpers/logging/logger.dart';
 import 'package:flutter/material.dart';
+import '../../dashboard/views/dashboard_page.dart';
 import 'signin_page.dart';
-import 'dashboard_page.dart';
+
 import 'package:http/http.dart' as http;
 
 class SignUpPage extends StatefulWidget {
@@ -56,15 +58,14 @@ Future<void> verifyOtp(
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      print('OTP verification successful: $responseData');
-      // Handle response data as needed
+      logger.i('OTP verification successful: $responseData');
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => DashboardPage()),
       );
     } else {
-      print('Failed to verify OTP: ${response.statusCode}');
-      print('Error: ${response.body}');
+      logger.i('Failed to verify OTP: ${response.statusCode}');
+      logger.e('Error: ${response.body}');
     }
   } catch (e) {
     print('Error: $e');
@@ -72,9 +73,8 @@ Future<void> verifyOtp(
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  // Initial position for animation
   double _bottomPosition = -500;
-  bool _showOTPFields = false; // To control visibility of OTP fields
+  bool _showOTPFields = false;
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController mobileno = TextEditingController();
@@ -84,10 +84,9 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
-    // Trigger the animation after the widget is loaded
     Future.delayed(const Duration(milliseconds: 10), () {
       setState(() {
-        _bottomPosition = 0; // Move the white block to its final position
+        _bottomPosition = 0;
       });
     });
   }
@@ -95,29 +94,25 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF3254ED), // Set background color to blue
+      backgroundColor: const Color(0xFF3254ED),
       body: Stack(
         children: [
-          // Image placed above the white block, in the blue background
           Positioned(
-            top: 50, // Adjust the position of the image above the white block
-            left: MediaQuery.of(context).size.width *
-                0.25, // Center the image horizontally
+            top: 50,
+            left: MediaQuery.of(context).size.width * 0.25,
             child: Image.asset(
-              'lib/images/signup_img.png', // Replace with your image path
-              width: 200, // Width of 200
-              height: 200, // Height of 200
+              'lib/images/signup_img.png',
+              width: 200,
+              height: 200,
             ),
           ),
-          // Animated white block
           AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
-            bottom: _bottomPosition, // Move from bottom to top
+            bottom: _bottomPosition,
             left: 0,
             right: 0,
             child: Container(
-              height: MediaQuery.of(context).size.height *
-                  0.7, // Cover 70% of the screen
+              height: MediaQuery.of(context).size.height * 0.7,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -127,7 +122,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               child: SingleChildScrollView(
-                // Add scroll functionality
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -141,15 +135,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    // Name field
                     TextField(
                       controller: name,
                       decoration: InputDecoration(
                         labelText: 'Name',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: const Color(
-                                0xFF3254ED), // Border color same as background
+                            color: const Color(0xFF3254ED),
                           ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -157,15 +149,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Email field
                     TextField(
                       controller: email,
                       decoration: InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: const Color(
-                                0xFF3254ED), // Border color same as background
+                            color: const Color(0xFF3254ED),
                           ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -173,15 +163,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    // Name field
                     TextField(
                       controller: city,
                       decoration: InputDecoration(
                         labelText: 'City',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: const Color(
-                                0xFF3254ED), // Border color same as background
+                            color: const Color(0xFF3254ED),
                           ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -189,15 +177,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Mobile Number field
                     TextField(
                       controller: mobileno,
                       decoration: InputDecoration(
                         labelText: 'Mobile Number',
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: const Color(
-                                0xFF3254ED), // Border color same as background
+                            color: const Color(0xFF3254ED),
                           ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -205,10 +191,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // SEND OTP button
                     Visibility(
-                      visible:
-                          !_showOTPFields, // Show only if OTP fields are hidden
+                      visible: !_showOTPFields,
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {

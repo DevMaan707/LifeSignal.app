@@ -1,8 +1,9 @@
 import 'dart:io';
-import 'dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+
+import '../../dashboard/views/dashboard_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String userId;

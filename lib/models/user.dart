@@ -1,13 +1,13 @@
 class User {
-  String id;
-  String username;
-  String email;
-  String phone;
-  String firstName;
-  String lastName;
-  String passwordHash;
-  DateTime createdAt;
-  DateTime updatedAt;
+  final String id;
+  final String username;
+  final String email;
+  final String phone;
+  final String firstName;
+  final String lastName;
+  final String passwordHash;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   User({
     required this.id,
@@ -20,19 +20,23 @@ class User {
     required this.createdAt,
     required this.updatedAt,
   });
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      username: json['username'],
-      email: json['email'],
-      phone: json['phone'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
-      passwordHash: json['password_hash'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      id: json['id'] ?? "",
+      username: json['username'] ?? "",
+      email: json['email'] ?? "",
+      phone: json['phone'] ?? "",
+      firstName: json['first_name'] ?? "",
+      lastName: json['last_name'] ?? "",
+      passwordHash: json['password_hash'] ?? "",
+      createdAt:
+          DateTime.tryParse(json['created_at'] ?? "") ?? DateTime(1970, 1, 1),
+      updatedAt:
+          DateTime.tryParse(json['updated_at'] ?? "") ?? DateTime(1970, 1, 1),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

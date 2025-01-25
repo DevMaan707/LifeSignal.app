@@ -1,10 +1,10 @@
 class MedicalHistory {
-  String id;
-  String userId;
-  List<MedicalIssue> medicalIssues;
-  List<Prescription> prescriptions;
-  List<Appointment> appointments;
-  DateTime createdAt;
+  final String id;
+  final String userId;
+  final List<MedicalIssue> medicalIssues;
+  final List<Prescription> prescriptions;
+  final List<Appointment> appointments;
+  final DateTime createdAt;
 
   MedicalHistory({
     required this.id,
@@ -14,22 +14,25 @@ class MedicalHistory {
     required this.appointments,
     required this.createdAt,
   });
+
   factory MedicalHistory.fromJson(Map<String, dynamic> json) {
     return MedicalHistory(
-      id: json['id'],
-      userId: json['user_id'],
-      medicalIssues: (json['medical_issues'] as List)
+      id: json['id'] ?? "",
+      userId: json['user_id'] ?? "",
+      medicalIssues: (json['medical_issues'] as List? ?? [])
           .map((item) => MedicalIssue.fromJson(item))
           .toList(),
-      prescriptions: (json['prescriptions'] as List)
+      prescriptions: (json['prescriptions'] as List? ?? [])
           .map((item) => Prescription.fromJson(item))
           .toList(),
-      appointments: (json['appointments'] as List)
+      appointments: (json['appointments'] as List? ?? [])
           .map((item) => Appointment.fromJson(item))
           .toList(),
-      createdAt: DateTime.parse(json['created_at']),
+      createdAt:
+          DateTime.tryParse(json['created_at'] ?? "") ?? DateTime(1970, 1, 1),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -43,10 +46,10 @@ class MedicalHistory {
 }
 
 class MedicalIssue {
-  String condition;
-  String severity;
-  String notes;
-  DateTime startDate;
+  final String condition;
+  final String severity;
+  final String notes;
+  final DateTime startDate;
 
   MedicalIssue({
     required this.condition,
@@ -57,10 +60,11 @@ class MedicalIssue {
 
   factory MedicalIssue.fromJson(Map<String, dynamic> json) {
     return MedicalIssue(
-      condition: json['condition'],
-      severity: json['severity'],
-      notes: json['notes'],
-      startDate: DateTime.parse(json['start_date']),
+      condition: json['condition'] ?? "",
+      severity: json['severity'] ?? "",
+      notes: json['notes'] ?? "",
+      startDate:
+          DateTime.tryParse(json['start_date'] ?? "") ?? DateTime(1970, 1, 1),
     );
   }
 
@@ -75,10 +79,10 @@ class MedicalIssue {
 }
 
 class Prescription {
-  String medicationName;
-  String dosage;
-  DateTime startDate;
-  DateTime? endDate;
+  final String medicationName;
+  final String dosage;
+  final DateTime startDate;
+  final DateTime? endDate;
 
   Prescription({
     required this.medicationName,
@@ -89,11 +93,12 @@ class Prescription {
 
   factory Prescription.fromJson(Map<String, dynamic> json) {
     return Prescription(
-      medicationName: json['medication_name'],
-      dosage: json['dosage'],
-      startDate: DateTime.parse(json['start_date']),
+      medicationName: json['medication_name'] ?? "",
+      dosage: json['dosage'] ?? "",
+      startDate:
+          DateTime.tryParse(json['start_date'] ?? "") ?? DateTime(1970, 1, 1),
       endDate:
-          json['end_date'] != null ? DateTime.parse(json['end_date']) : null,
+          json['end_date'] != null ? DateTime.tryParse(json['end_date']) : null,
     );
   }
 
@@ -108,10 +113,10 @@ class Prescription {
 }
 
 class Appointment {
-  String doctorId;
-  String doctorName;
-  DateTime appointmentDate;
-  String notes;
+  final String doctorId;
+  final String doctorName;
+  final DateTime appointmentDate;
+  final String notes;
 
   Appointment({
     required this.doctorId,
@@ -122,10 +127,11 @@ class Appointment {
 
   factory Appointment.fromJson(Map<String, dynamic> json) {
     return Appointment(
-      doctorId: json['doctor_id'],
-      doctorName: json['doctor_name'],
-      appointmentDate: DateTime.parse(json['appointment_date']),
-      notes: json['notes'],
+      doctorId: json['doctor_id'] ?? "",
+      doctorName: json['doctor_name'] ?? "",
+      appointmentDate: DateTime.tryParse(json['appointment_date'] ?? "") ??
+          DateTime(1970, 1, 1),
+      notes: json['notes'] ?? "",
     );
   }
 

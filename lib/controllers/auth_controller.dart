@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../pages/dashboard_page.dart';
 import '../core/services/auth_service.dart';
+import '../features/dashboard/views/dashboard_page.dart';
 
 class AuthController extends GetxController {
   final _authService = AuthService();
